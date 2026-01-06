@@ -10,9 +10,9 @@ export default function InputArea({ value, onChange, disabled }) {
   const progress = (charCount / MAX_LENGTH) * 100;
 
   return (
-    <div className="w-full space-y-3">
-      <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-        <MessageIcon className="w-5 h-5 text-indigo-600" />
+    <div className="w-full space-y-2">
+      <label className="flex items-center gap-2 text-xs lg:text-sm font-medium text-gray-700">
+        <MessageIcon className="w-4 h-4 lg:w-5 lg:h-5 text-indigo-600" />
         <span>Escribe tu frase</span>
       </label>
       <div className="relative">
@@ -20,21 +20,21 @@ export default function InputArea({ value, onChange, disabled }) {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled}
-          placeholder="Ej: Hoy fue un día muy productivo y aprendí muchas cosas nuevas..."
+          placeholder="Ej: Hoy fue un día muy productivo..."
           className={`
-            w-full p-4 sm:p-5 rounded-xl border-2 resize-none
+            w-full p-3 lg:p-3.5 rounded-xl border-2 resize-none
             focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent
-            transition-all duration-200 text-base
+            transition-all duration-200 text-xs lg:text-sm
             ${disabled ? 'bg-gray-50 cursor-not-allowed opacity-60' : 'bg-white hover:border-gray-400'}
             ${!isValid && charCount > 0 ? 'border-red-300 focus:ring-red-300' : 'border-gray-300'}
           `}
-          rows={5}
+          rows={3}
           maxLength={MAX_LENGTH}
         />
         {charCount > 0 && (
-          <div className="absolute bottom-3 right-3">
+          <div className="absolute bottom-2 right-2">
             <div className={`
-              w-10 h-10 rounded-full flex items-center justify-center text-xs font-semibold
+              w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold
               ${charCount >= MIN_LENGTH
                 ? 'bg-green-100 text-green-700'
                 : 'bg-gray-100 text-gray-500'
@@ -47,8 +47,8 @@ export default function InputArea({ value, onChange, disabled }) {
       </div>
 
       {/* Progress bar */}
-      <div className="space-y-2">
-        <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+      <div className="space-y-1.5">
+        <div className="h-1 bg-gray-100 rounded-full overflow-hidden">
           <div
             className={`h-full transition-all duration-300 rounded-full ${
               charCount < MIN_LENGTH
@@ -61,13 +61,13 @@ export default function InputArea({ value, onChange, disabled }) {
           />
         </div>
 
-        <div className="flex justify-between items-center text-xs sm:text-sm">
+        <div className="flex justify-between items-center text-xs">
           <span className={`font-medium transition-colors ${
             charCount < MIN_LENGTH ? 'text-gray-500' : 'text-green-600'
           }`}>
             {charCount < MIN_LENGTH
-              ? `Faltan ${MIN_LENGTH - charCount} caracteres`
-              : '✓ Listo para mejorar'
+              ? `Faltan ${MIN_LENGTH - charCount}`
+              : '✓ Listo'
             }
           </span>
           <span className={`transition-colors ${
