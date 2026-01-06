@@ -4,7 +4,7 @@ import InputArea from './components/InputArea';
 import ResultArea from './components/ResultArea';
 import useUsageLimit from './hooks/useUsageLimit';
 
-const API_URL = '/api';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 function App() {
   const [phrase, setPhrase] = useState('');
