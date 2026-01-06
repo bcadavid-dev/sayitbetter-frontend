@@ -19,18 +19,15 @@ export default function ResultArea({ result }) {
 
   return (
     <div className="w-full animate-fade-in">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Frase mejorada
-      </label>
-      <div className="relative">
-        <div className="w-full p-4 rounded-lg border-2 border-green-300 bg-green-50 min-h-[100px]">
-          <p className="text-gray-800 leading-relaxed">{result}</p>
-        </div>
+      <div className="flex items-center justify-between mb-2">
+        <label className="block text-sm font-medium text-gray-700">
+          Frase mejorada
+        </label>
         <button
           onClick={handleCopy}
           className={`
-            absolute top-3 right-3 px-4 py-2 rounded-lg
-            font-medium text-sm transition-all duration-200
+            px-3 py-1.5 rounded-lg font-medium text-sm
+            transition-all duration-200 flex items-center gap-1
             ${copied
               ? 'bg-green-600 text-white'
               : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
@@ -39,6 +36,9 @@ export default function ResultArea({ result }) {
         >
           {copied ? '✓ Copiado' : '📋 Copiar'}
         </button>
+      </div>
+      <div className="w-full p-4 rounded-lg border-2 border-green-300 bg-green-50 min-h-[100px]">
+        <p className="text-gray-800 leading-relaxed">{result}</p>
       </div>
     </div>
   );
