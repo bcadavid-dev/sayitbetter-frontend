@@ -1,41 +1,41 @@
-import { useState } from 'react';
-import ToneSelector from './components/ToneSelector';
-import InputArea from './components/InputArea';
-import ResultArea from './components/ResultArea';
-import useUsageLimit from './hooks/useUsageLimit';
-import { SparklesIcon, LoadingSpinner, AlertIcon } from './components/Icons';
+import { useState } from "react";
+import ToneSelector from "./components/ToneSelector";
+import InputArea from "./components/InputArea";
+import ResultArea from "./components/ResultArea";
+import useUsageLimit from "./hooks/useUsageLimit";
+import { SparklesIcon, LoadingSpinner, AlertIcon } from "./components/Icons";
 
-const API_URL = import.meta.env.VITE_API_URL || '/api';
+const API_URL = import.meta.env.VITE_API_URL || "/api";
 
 function App() {
-  const [phrase, setPhrase] = useState('');
-  const [selectedTone, setSelectedTone] = useState('neutral');
-  const [result, setResult] = useState('');
+  const [phrase, setPhrase] = useState("");
+  const [selectedTone, setSelectedTone] = useState("neutral");
+  const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  const { canUse, remainingUses, incrementUsage } = useUsageLimit();
+  const { canUse, remainingUses, incrementUsage, maxUses } = useUsageLimit();
 
   const handleImprove = async () => {
     if (!canUse) {
-      setError('Has alcanzado el límite de 3 mejoras por día. Vuelve mañana!');
+      setError(`Hoy la usaste bastante.Llegaste al límite de ${maxUses} mejoras diarias. Mañana vuelve a estar disponible, o desbloquea uso continuo si quieres seguir ahora.`);
       return;
     }
 
     if (phrase.length < 10) {
-      setError('La frase debe tener al menos 10 caracteres');
+      setError("La frase debe tener al menos 10 caracteres");
       return;
     }
 
     setIsLoading(true);
-    setError('');
-    setResult('');
+    setError("");
+    setResult("");
 
     try {
       const response = await fetch(`${API_URL}/improve`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           phrase,
@@ -46,7 +46,7 @@ function App() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error al procesar la frase');
+        throw new Error(data.error || "Error al procesar la frase");
       }
 
       setResult(data.improvedPhrase);
@@ -72,10 +72,16 @@ function App() {
               Dilo Mejor
             </h1>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white shadow-sm border border-gray-200 text-xs ml-2">
-              <div className={`w-1.5 h-1.5 rounded-full ${canUse ? 'bg-green-500' : 'bg-red-500'}`}></div>
+              <div
+                className={`w-1.5 h-1.5 rounded-full ${
+                  canUse ? "bg-green-500" : "bg-red-500"
+                }`}
+              ></div>
               {canUse ? (
                 <span className="text-gray-700">
-                  <span className="font-semibold text-indigo-600">{remainingUses}</span>
+                  <span className="font-semibold text-indigo-600">
+                    {remainingUses}
+                  </span>
                 </span>
               ) : (
                 <span className="text-red-600 font-medium">0</span>
@@ -104,7 +110,9 @@ function App() {
                 <div className="w-full border-t border-gray-200"></div>
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-white px-4 text-sm text-gray-500">Personaliza el tono</span>
+                <span className="bg-white px-4 text-sm text-gray-500">
+                  Personaliza el tono
+                </span>
               </div>
             </div>
 
@@ -121,9 +129,10 @@ function App() {
               className={`
                 w-full py-3 lg:py-4 rounded-xl font-semibold text-sm lg:text-base
                 transition-all duration-300 flex items-center justify-center gap-2
-                ${isLoading || !canUse || phrase.length < 10
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]'
+                ${
+                  isLoading || !canUse || phrase.length < 10
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                    : "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
                 }
               `}
             >
@@ -172,8 +181,14 @@ function App() {
                   </div>
                   <div className="flex items-center justify-center gap-2 pt-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-gray-300 animate-pulse"></div>
-                    <div className="w-1.5 h-1.5 rounded-full bg-gray-300 animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                    <div className="w-1.5 h-1.5 rounded-full bg-gray-300 animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                    <div
+                      className="w-1.5 h-1.5 rounded-full bg-gray-300 animate-pulse"
+                      style={{ animationDelay: "0.2s" }}
+                    ></div>
+                    <div
+                      className="w-1.5 h-1.5 rounded-full bg-gray-300 animate-pulse"
+                      style={{ animationDelay: "0.4s" }}
+                    ></div>
                   </div>
                 </div>
               </div>
