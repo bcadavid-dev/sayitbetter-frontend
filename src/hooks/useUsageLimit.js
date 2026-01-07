@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const STORAGE_KEY = 'saybest_usage';
-const MAX_DAILY_USES = 10;
+const MAX_DAILY_USES = 20;
 
 export default function useUsageLimit() {
   const [usageData, setUsageData] = useState({
